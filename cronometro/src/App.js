@@ -21,9 +21,7 @@ export default function Stopwatch() {
     if (!intervalRef.current) return;
     clearInterval(intervalRef.current);
     intervalRef.current = null;
-    if (!startTime || !now) return;
-    const elapsed = now - startTime;
-    setMarks((m) => [elapsed, ...m]);
+
   };
 
   const reset = () => {
@@ -31,6 +29,12 @@ export default function Stopwatch() {
     setStartTime(null);
     setNow(null);
     setMarks([]);
+  };
+
+  const mark = () => {
+    if (!startTime || !now) return;
+    const elapsed = now - startTime;
+    setMarks((m) => [elapsed, ...m]);
   };
 
   const formatTime = (ms) => {
@@ -61,6 +65,7 @@ export default function Stopwatch() {
       <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
         <button onClick={start} aria-pressed={!!intervalRef.current}>Començar</button>
         <button onClick={stop}>Parar</button>
+        <button onClick={mark}>Marka</button>
         <button onClick={reset}>Reset</button>
       </div>
 
