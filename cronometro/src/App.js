@@ -55,7 +55,6 @@ export default function Stopwatch() {
 
   return (
     <div style={{ fontFamily: 'system-ui, Arial', maxWidth: 420 }}>
-      <h2>Cronòmetre</h2>
 
       <div style={{ fontSize: 32, marginBottom: 12 }}>{formatTime(elapsed)}</div>
 
