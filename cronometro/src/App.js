@@ -65,12 +65,11 @@ export default function Stopwatch() {
       <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
         <button onClick={start} aria-pressed={!!intervalRef.current}>Començar</button>
         <button onClick={stop}>Parar</button>
-        <button onClick={mark}>Marka</button>
+        <button onClick={mark}>Marca</button>
         <button onClick={reset}>Reset</button>
       </div>
 
       <div>
-        <h3>Marques ({marks.length})</h3>
         <div style={{ maxHeight: 200, overflow: 'auto', border: '1px solid #eee', padding: 8, borderRadius: 6 }}>
           {marks.length === 0 ? (
             <div style={{ color: '#666' }}>No hi ha marques encara.</div>
