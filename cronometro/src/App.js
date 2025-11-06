@@ -4,10 +4,10 @@ export default function Stopwatch() {
   const [startTime, setStartTime] = useState(null);
   const [now, setNow] = useState(null);
   const intervalRef = useRef(null);
+  const [marks, setMarks] = useState([]);
 
   const start = () => {
     if (intervalRef.current) return;
-
     const baseStart = startTime && now ? Date.now() - (now - startTime) : Date.now();
     setStartTime(baseStart);
     setNow(Date.now());
@@ -21,12 +21,16 @@ export default function Stopwatch() {
     if (!intervalRef.current) return;
     clearInterval(intervalRef.current);
     intervalRef.current = null;
+    if (!startTime || !now) return;
+    const elapsed = now - startTime;
+    setMarks((m) => [elapsed, ...m]);
   };
 
   const reset = () => {
     stop();
     setStartTime(null);
     setNow(null);
+    setMarks([]);
   };
 
   const formatTime = (ms) => {
@@ -51,6 +55,7 @@ export default function Stopwatch() {
 
   return (
     <div style={{ fontFamily: 'system-ui, Arial', maxWidth: 420 }}>
+      <h2>Cronòmetre</h2>
 
       <div style={{ fontSize: 32, marginBottom: 12 }}>{formatTime(elapsed)}</div>
 
@@ -58,6 +63,21 @@ export default function Stopwatch() {
         <button onClick={start} aria-pressed={!!intervalRef.current}>Començar</button>
         <button onClick={stop}>Parar</button>
         <button onClick={reset}>Reset</button>
+      </div>
+
+      <div>
+        <h3>Marques ({marks.length})</h3>
+        <div style={{ maxHeight: 200, overflow: 'auto', border: '1px solid #eee', padding: 8, borderRadius: 6 }}>
+          {marks.length === 0 ? (
+            <div style={{ color: '#666' }}>No hi ha marques encara.</div>
+          ) : (
+            <ol style={{ margin: 0, paddingLeft: 16 }}>
+              {marks.map((m, i) => (
+                <li key={i} style={{ marginBottom: 6 }}>{formatTime(m)}</li>
+              ))}
+            </ol>
+          )}
+        </div>
       </div>
     </div>
   );
