@@ -25,7 +25,6 @@ export default function Xat() {
         load();
     }, [selectedUser, state.token]);
 
-
     function onMessageSent(msg) {
         localDispatch({ type: 'ADD', payload: msg });
     }
@@ -33,7 +32,7 @@ export default function Xat() {
     return (
         <div className="app-main">
             <aside>
-                <Users onSelectUser={setSelectedUser} />
+                <Users onSelectUser={setSelectedUser} selectedUser={selectedUser} />
             </aside>
 
             <section className="chat">
@@ -45,11 +44,12 @@ export default function Xat() {
                 </div>
 
                 <div className="chat-body">
-                    <MessageList messages={messages} />
+                    <MessageList messages={messages} selectedUser={selectedUser} />
                     <MessageInput
                         toUser={selectedUser}
                         token={state.token}
                         onMessageSent={onMessageSent}
+                        className="message-input"
                     />
                 </div>
             </section>

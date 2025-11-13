@@ -42,7 +42,7 @@ export default function MessageList({ messages, selectedUser }) {
     }, [liveMessages]);
 
     return (
-        <div style={{ height: '60vh', overflowY: 'auto' }}>
+        <div style={{ flex: 1, overflowY: 'auto' }}>
             {liveMessages.map(m => (
                 <div key={m._id} style={{ padding: '6px', borderBottom: '1px solid #eee' }}>
                     <strong>{m.from?.name || 'Jo'}</strong>: {m.content}
