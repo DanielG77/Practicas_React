@@ -37,12 +37,10 @@ export default function MessageList({ messages, selectedUser }) {
         return () => socket.off('new_message', handleNewMessage);
     }, [socket, selectedUser]);
 
-    // ---- Nuevo: suscripción a 'message_updated' para marcar mensajes como leídos ----
     useEffect(() => {
         if (!socket) return;
 
         const handleMessageUpdated = (payload) => {
-            // payload puede ser: { messageIds: [...] } o directamente [...ids] o un objeto con updatedCount
             let ids = [];
 
             if (!payload) return;
@@ -54,11 +52,9 @@ export default function MessageList({ messages, selectedUser }) {
             } else if (payload.updatedIds && Array.isArray(payload.updatedIds)) {
                 ids = payload.updatedIds;
             } else {
-                // si el servidor solo manda un número, no hay ids para actualizar
                 return;
             }
 
-            // Normaliza a strings (por si vienen ObjectId)
             const idsSet = new Set(ids.map(String));
 
             setLiveMessages(prev => {
