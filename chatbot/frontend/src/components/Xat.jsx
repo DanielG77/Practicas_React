@@ -5,6 +5,7 @@ import { apiFetch } from '../api/api';
 import Users from './Users';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
+import { getCurrentUser } from '../api/auth';
 
 export default function Xat() {
     const { state } = useContext(AuthContext);
@@ -26,6 +27,35 @@ export default function Xat() {
         }
         load();
     }, [selectedUser, state.token]);
+
+    useEffect(() => {
+        async function markUnreadAsRead() {
+            if (!state.token) return;
+            if (!Array.isArray(messages) || messages.length === 0) return;
+            // console.log('markUnreadAsRead called');
+
+            try {
+                const user = await getCurrentUser(state.token);
+                const currentUserId = user._id;
+
+                const unreadIds = messages
+                    .filter(m => !m.read && m.from && m.from._id !== currentUserId)
+                    .map(m => m._id);
+
+                if (unreadIds.length === 0) return;
+
+                // console.log('test');
+
+                await apiFetch('/messages/mark-read', 'POST', { messageIds: unreadIds }, state.token);
+                localDispatch({ type: 'MARK_READ', payload: unreadIds });
+
+            } catch (err) {
+                console.error('Error marcando mensajes como leídos:', err);
+            }
+        }
+
+        markUnreadAsRead();
+    }, [messages, selectedUser, state.token, state.user, localDispatch]);
 
     function onMessageSent(msg) {
         localDispatch({ type: 'ADD', payload: msg });

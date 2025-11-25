@@ -58,14 +58,32 @@ router.get('/', auth, async (req, res) => {
 
 router.post('/mark-read', auth, async (req, res) => {
     const { messageIds } = req.body;
+    if (!Array.isArray(messageIds) || messageIds.length === 0) {
+        return res.status(400).json({ message: 'messageIds must be a non-empty array' });
+    }
     try {
-        await Message.updateMany({ _id: { $in: messageIds } }, { $set: { read: true } });
+        const toUpdate = await Message.find(
+            { _id: { $in: messageIds }, from: { $ne: req.userId } },
+            '_id'
+        );
+        const idsToUpdate = toUpdate.map(m => m._id.toString());
 
-        res.json({ ok: true });
+        const result = await Message.updateMany(
+            { _id: { $in: idsToUpdate } },
+            { $set: { read: true } }
+        );
+
+        const updatedCount = result.modifiedCount || result.nModified || 0;
+
+        const io = req.app.get('io');
+        io.emit('message_updated', { messageIds: idsToUpdate, updatedCount });
+
+        res.json({ ok: true, updatedCount, updatedIds: idsToUpdate });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: 'Error' });
+        res.status(500).json({ message: 'Error marcant missatges com a llegits' });
     }
 });
+
 
 module.exports = router;

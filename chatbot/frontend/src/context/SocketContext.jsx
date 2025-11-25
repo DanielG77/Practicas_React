@@ -9,7 +9,7 @@ export const useSocket = () => useContext(SocketContext);
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
 export const SocketProvider = ({ children }) => {
-    const { state } = React.useContext(AuthContext); // { token, ... }
+    const { state } = React.useContext(AuthContext);
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {

@@ -12,17 +12,13 @@ html,
     height: 100%;
 }
 
-/* Header y filtros ya son componentes externos */
 
-/* Layout de Xat */
 .app-main {
     display: flex;
     flex: 1;
-    /* ocupa el espacio restante */
     overflow: hidden;
 }
 
-/* Sidebar de usuarios */
 .app-main aside {
     width: 250px;
     background-color: #fff;
@@ -31,14 +27,12 @@ html,
     padding: 10px;
 }
 
-/* Chat */
 .chat {
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
-/* Header interno del chat */
 .chat-header {
     height: 50px;
     background-color: #f6f7f8;
@@ -49,7 +43,6 @@ html,
     border-bottom: 1px solid #ddd;
 }
 
-/* Body del chat */
 .chat-body {
     flex: 1;
     display: flex;
@@ -59,13 +52,11 @@ html,
     background-color: #e5e5e5;
 }
 
-/* Scroll en mensajes */
 .chat-body>div {
     flex: 1;
     overflow-y: auto;
 }
 
-/* Input de mensajes */
 .message-input {
     margin-top: 8px;
 }

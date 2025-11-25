@@ -83,7 +83,7 @@ export default function Header() {
         }}>
             <div>
                 <Link to="/home" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <strong>Intranet Chat</strong>
+                    <strong>Mister Chat</strong>
                 </Link>
             </div>
 
