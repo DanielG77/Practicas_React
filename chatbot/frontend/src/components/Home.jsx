@@ -26,7 +26,7 @@ export default function Home() {
             <ul style={{ listStyle: 'none', padding: 0 }}>
                 {groups.map(g => (
                     <li key={g._id} style={{ marginBottom: '12px' }}>
-                        <Link to={`/group/${g._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Link to={`http://localhost:5173/?group=${g._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             <div style={{
                                 padding: '10px',
                                 border: '1px solid #ddd',

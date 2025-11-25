@@ -12,6 +12,8 @@ export default function Xat() {
     const [messages, localDispatch] = useReducer(messagesReducer, []);
 
     useEffect(() => {
+        // var item = useParams();
+        // console.log(item);
         async function load() {
             if (!state.token) return;
             try {

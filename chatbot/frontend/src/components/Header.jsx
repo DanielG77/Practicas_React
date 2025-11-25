@@ -82,7 +82,7 @@ export default function Header() {
             marginBottom: '12px'
         }}>
             <div>
-                <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link to="/home" style={{ textDecoration: 'none', color: 'inherit' }}>
                     <strong>Intranet Chat</strong>
                 </Link>
             </div>

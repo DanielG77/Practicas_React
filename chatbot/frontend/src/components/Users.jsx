@@ -2,20 +2,22 @@ import React, { useState, useEffect, useContext } from 'react';
 import { apiFetch } from '../api/api';
 import { AuthContext } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
+import { getCurrentUser } from '../api/auth';
 
 export default function Users({ onSelectUser, selectedUser }) {
     const [users, setUsers] = useState([]);
     const { state } = useContext(AuthContext);
     const socket = useSocket();
 
-    // Inicialmente cargar todos los usuarios
     useEffect(() => {
         if (!state.token) return;
+        console.log(state.token);
         let mounted = true;
         async function load() {
             try {
                 const data = await apiFetch('/users', 'GET', null, state.token);
                 if (mounted) {
+                    // console.log("Data: ", data);
                     setUsers(data);
                 }
             } catch (err) {
@@ -26,11 +28,19 @@ export default function Users({ onSelectUser, selectedUser }) {
         return () => { mounted = false; };
     }, [state.token]);
 
-    // Escuchar actualizaciones de usuarios (si socket funciona)
     useEffect(() => {
         if (!socket) return;
         const handler = (updatedUsers) => {
-            setUsers(updatedUsers);
+
+            getCurrentUser(state.token).then((user) => {
+                var usuariosActives = [];
+                for (var i = 0; i < updatedUsers.length; i++) {
+                    if (updatedUsers[i].email !== user.email) {
+                        usuariosActives.push(updatedUsers[i]);
+                    }
+                }
+                setUsers(usuariosActives);
+            });
         };
         socket.on('users_updated', handler);
         return () => {

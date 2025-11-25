@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { apiFetch } from '../api/api';
 
-export default function MessageInput({ toUser, token }) {
+export default function MessageInput({ toUser, toGroup, token }) {
     const [text, setText] = useState('');
     const [sending, setSending] = useState(false);
     const inputRef = useRef();
@@ -11,7 +11,11 @@ export default function MessageInput({ toUser, token }) {
         if (!text.trim()) return;
         try {
             setSending(true);
-            const body = { content: text.trim(), to: toUser ? toUser._id : null };
+            const body = { content: text.trim() };
+
+            if (toGroup) body.group = toGroup._id;
+            else if (toUser) body.to = toUser._id;
+
             await apiFetch('/messages', 'POST', body, token);
             setText('');
             inputRef.current?.focus();
@@ -29,7 +33,13 @@ export default function MessageInput({ toUser, token }) {
                 ref={inputRef}
                 value={text}
                 onChange={e => setText(e.target.value)}
-                placeholder={toUser ? `Missatge a ${toUser.name}` : 'Missatge al canal general'}
+                placeholder={
+                    toGroup
+                        ? `Missatge al grup ${toGroup.name}`
+                        : toUser
+                            ? `Missatge a ${toUser.name}`
+                            : 'Missatge al canal general'
+                }
                 disabled={sending}
                 style={{ flex: 1, padding: '8px' }}
             />

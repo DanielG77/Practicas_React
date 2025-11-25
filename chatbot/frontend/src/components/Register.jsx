@@ -15,7 +15,6 @@ export default function Register() {
         try {
             const data = await apiFetch('/auth/register', 'POST', { name, email, password });
             dispatch({ type: 'LOGIN', payload: data });
-            localStorage.setItem('user', JSON.stringify(data.user));
             navigate('/');
         } catch (err) {
             alert(err.message);
