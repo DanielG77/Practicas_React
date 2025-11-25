@@ -67,7 +67,6 @@ export default function Header() {
         } finally {
             dispatch({ type: 'LOGOUT' });
             localStorage.removeItem('token');
-            localStorage.removeItem('user');
             navigate('/login');
             logoutBtnRef.current?.blur();
         }

@@ -42,4 +42,15 @@ router.put('/online', auth, async (req, res) => {
 });
 
 
+router.get('/me', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.userId).select('-passwordHash'); // excluimos la contraseña
+        if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({ message: 'Error obteniendo usuario', error: err.message });
+    }
+});
+
+
 module.exports = router;

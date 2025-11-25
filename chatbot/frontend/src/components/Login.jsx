@@ -15,7 +15,6 @@ export default function Login() {
         try {
             const data = await apiFetch('/auth/login', 'POST', { email, password });
             dispatch({ type: 'LOGIN', payload: data });
-            localStorage.setItem('user', JSON.stringify(data.user));
             navigate('/');
         } catch (err) {
             alert(err.message);

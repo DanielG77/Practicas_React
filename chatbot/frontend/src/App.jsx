@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Xat from './components/Xat';
 import Perfil from './components/Perfil';
+import Home from './components/Home';
 import { AuthContext } from './context/AuthContext';
 
 function PrivateRoute({ children }) {
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/perfil" element={<Perfil />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/" element={<PrivateRoute><Xat /></PrivateRoute>} />
       </Routes>
     </div>

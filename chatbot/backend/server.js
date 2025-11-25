@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 const authRouter = require('./routes/auth.routes');
 const usersRouter = require('./routes/users.routes');
 const messagesRouter = require('./routes/messages.routes');
+const groups = require('./routes/groups.routes');
 
 const User = require('./models/User');
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/messages', messagesRouter);
+app.use('/api/groups', groups);
 
 const server = http.createServer(app);
 const io = new Server(server, {
