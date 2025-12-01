@@ -1,0 +1,79 @@
+body,
+html,
+#root {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Filtros */
+.filtros {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.filtros button {
+    background-color: #f6f7f8;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.filtros button:hover {
+    background-color: #e5e5e5;
+}
+
+.app-main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.app-main aside {
+    width: 250px;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    height: 50px;
+    background-color: #f6f7f8;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    font-weight: 700;
+    border-bottom: 1px solid #ddd;
+}
+
+.chat-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: #e5e5e5;
+}
+
+.message-input {
+    margin-top: auto;
+}
