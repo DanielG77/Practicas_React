@@ -15,42 +15,35 @@ const generateToken = (userId) => {
 
 exports.register = async (req, res) => {
     try {
-        const { username, email, password, preferredLanguage } = req.body;
+        const { username, email, password } = req.body;
         if (!username || !email || !password) {
             return res.status(400).json({ message: 'Falten camps requerits: username, email i password' });
         }
 
-        // Comprovar si ja existeix usuari per email o username
         const existing = await User.findOne({ $or: [{ email }, { username }] });
         if (existing) {
             return res.status(400).json({ message: 'Usuari o email ja existeix' });
         }
 
-        // Hashear contrasenya
         const salt = await bcrypt.genSalt(10);
         const passwordHash = await bcrypt.hash(password, salt);
 
-        // Crear i guardar usuari
         const user = new User({
             username,
             email,
             passwordHash,
-            preferredLanguage: preferredLanguage || 'en'
         });
 
         await user.save();
 
-        // Generar token (només id dins el token)
         const token = generateToken(user._id);
 
-        // No retornis passwordHash ni dades sensibles
         return res.status(201).json({
             token,
             user: {
                 id: user._id,
                 username: user.username,
                 email: user.email,
-                preferredLanguage: user.preferredLanguage
             }
         });
     } catch (err) {

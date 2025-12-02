@@ -4,7 +4,7 @@ import { apiFetch } from '../api/api';
 import { AuthContext } from '../context/AuthContext';
 
 export default function Register() {
-    const [name, setName] = useState('');
+    const [username, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { dispatch } = useContext(AuthContext);
@@ -13,7 +13,7 @@ export default function Register() {
     async function handleSubmit(e) {
         e.preventDefault();
         try {
-            const data = await apiFetch('/auth/register', 'POST', { name, email, password });
+            const data = await apiFetch('/auth/register', 'POST', { username, email, password });
             dispatch({ type: 'LOGIN', payload: data });
             navigate('/');
         } catch (err) {
@@ -25,7 +25,7 @@ export default function Register() {
         <div>
             <h2>Registrar</h2>
             <form onSubmit={handleSubmit}>
-                <input value={name} onChange={e => setName(e.target.value)} placeholder="Nom" />
+                <input value={username} onChange={e => setName(e.target.value)} placeholder="Nom" />
                 <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
                 <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
                 <button>Registrar</button>

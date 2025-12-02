@@ -8,7 +8,6 @@ export default function Filters({ onCategoryChange }) {
     const [selected, setSelected] = useState('animal');
     const stripRef = useRef(null);
 
-    // Leer categoría guardada en localStorage al montar
     useEffect(() => {
         const raw =
             localStorage.getItem('category')
@@ -24,18 +23,15 @@ export default function Filters({ onCategoryChange }) {
         }
     }, []);
 
-    // Cargar categorías desde el backend
     useEffect(() => {
         let mounted = true;
         async function load() {
             setLoading(true);
             setError(null);
             try {
-                // usa tu apiFetch (espera que devuelva el JSON descrito por el backend)
                 const data = await apiFetch('/jokes/categories', 'GET');
                 if (!mounted) return;
 
-                // algunos backends devuelven { categories: [...] } o directamente [...]
                 const cats = Array.isArray(data) ? data : (Array.isArray(data.categories) ? data.categories : []);
                 setCategories(cats);
             } catch (err) {
@@ -50,16 +46,13 @@ export default function Filters({ onCategoryChange }) {
         return () => { mounted = false; };
     }, []);
 
-    // Seleccionar categoría: guardar y notificar al padre
     function handleSelect(cat) {
         setSelected(cat);
         try { localStorage.setItem('category', JSON.stringify({ category: cat })); } catch (e) { }
         if (typeof onCategoryChange === 'function') onCategoryChange(cat);
-        // si la barra está cerca del final, desplazar ligeramente para mantener visibilidad
         ensureVisible(cat);
     }
 
-    // Asegura que el elemento seleccionado quede visible en el contenedor
     function ensureVisible(cat) {
         const container = stripRef.current;
         if (!container) return;
@@ -74,7 +67,6 @@ export default function Filters({ onCategoryChange }) {
         }
     }
 
-    // Scroll helpers (botones izquierda/derecha)
     function scrollBy(amount) {
         if (!stripRef.current) return;
         stripRef.current.scrollBy({ left: amount, behavior: 'smooth' });
