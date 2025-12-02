@@ -34,7 +34,6 @@ export default function List({ category: propCategory }) {
 
             const data = await res.json();
 
-            // Ajusta esto según la estructura de respuesta de tu API
             const translatedText = data.translation || data.translatedText || data.text || '';
 
             setTranslations(prev => ({
