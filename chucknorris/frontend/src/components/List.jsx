@@ -10,12 +10,10 @@ export default function List({ category: propCategory }) {
     const [error, setError] = useState(null);
     const [targetLang, setTargetLang] = useState('es');
 
-    // cuando cambia la prop, sincroniza el state local
     useEffect(() => {
         if (propCategory) setCategory(propCategory);
     }, [propCategory]);
 
-    // Función para traducir un chiste individual
     const translateJoke = useCallback(async (jokeId, text, lang = targetLang) => {
         if (!text) return;
 
@@ -57,19 +55,16 @@ export default function List({ category: propCategory }) {
         }
     }, [targetLang]);
 
-    // Traducir todos los chistes al idioma seleccionado
     const translateAllJokes = useCallback(async (lang = targetLang) => {
         if (jokes.length === 0) return;
 
         setTranslatingAll(true);
 
         try {
-            // Crear un array de promesas para traducir todos los chistes
             const translationPromises = jokes.map(joke =>
                 translateJoke(joke.id, joke.value, lang)
             );
 
-            // Esperar a que todas las traducciones se completen
             await Promise.all(translationPromises);
         } catch (err) {
             console.error('Error traduciendo todos los chistes:', err);
@@ -79,10 +74,8 @@ export default function List({ category: propCategory }) {
         }
     }, [jokes, translateJoke, targetLang]);
 
-    // Traducir todos los chistes cuando se cargan (solo al español por defecto)
     useEffect(() => {
         if (jokes.length > 0 && targetLang === 'es') {
-            // Solo traducir al español por defecto si no hay traducciones existentes
             const hasTranslations = Object.keys(translations).length > 0;
             if (!hasTranslations) {
                 translateAllJokes('es');
@@ -94,7 +87,6 @@ export default function List({ category: propCategory }) {
         if (!category) return;
         setLoading(true);
         setError(null);
-        // Limpiar traducciones anteriores
         setTranslations({});
         setLoadingTranslations({});
 
@@ -129,7 +121,6 @@ export default function List({ category: propCategory }) {
         fetchJokes();
     }, [category, fetchJokes]);
 
-    // Función para cambiar el idioma de destino
     const handleLanguageChange = (lang) => {
         setTargetLang(lang);
     };
@@ -143,7 +134,6 @@ export default function List({ category: propCategory }) {
                 </div>
             </div>
 
-            {/* Controles de traducción */}
             <div style={{
                 background: '#f8f9fa',
                 padding: '12px 16px',
@@ -176,7 +166,6 @@ export default function List({ category: propCategory }) {
                     </div>
 
                     <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                        {/* Selector de idioma */}
                         <select
                             value={targetLang}
                             onChange={(e) => handleLanguageChange(e.target.value)}
@@ -193,7 +182,6 @@ export default function List({ category: propCategory }) {
                             <option value="pt">Portugués</option>
                         </select>
 
-                        {/* Botón para traducir todos */}
                         <button
                             onClick={() => translateAllJokes()}
                             disabled={translatingAll || jokes.length === 0}
@@ -210,7 +198,6 @@ export default function List({ category: propCategory }) {
                             {translatingAll ? 'Traduciendo...' : 'Traducir todos'}
                         </button>
 
-                        {/* Botón específico para español */}
                         <button
                             onClick={() => {
                                 setTargetLang('es');
@@ -252,7 +239,6 @@ export default function List({ category: propCategory }) {
 
                     return (
                         <React.Fragment key={j.id}>
-                            {/* Tarjeta del chiste original en inglés */}
                             <article style={{
                                 background: '#fff',
                                 padding: 12,
@@ -292,7 +278,6 @@ export default function List({ category: propCategory }) {
                                 </div>
                             </article>
 
-                            {/* Tarjeta de la traducción */}
                             <article style={{
                                 background: '#f8fafc',
                                 padding: 12,
